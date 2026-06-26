@@ -15,7 +15,7 @@ export async function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
-      <div className="container flex h-16 items-center justify-between gap-2 sm:gap-4">
+      <div className="container flex h-14 items-center justify-between gap-2 sm:h-16 sm:gap-4">
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <MobileNav />
           <Link href="/" className="flex items-center gap-2">

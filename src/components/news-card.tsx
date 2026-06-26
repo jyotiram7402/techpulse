@@ -14,7 +14,7 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
 
   return (
     <Card className="group flex h-full flex-col overflow-hidden border-border/60 bg-card transition-all hover:border-border hover:shadow-lg">
-      <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+      <div className="relative aspect-[2/1] overflow-hidden bg-muted sm:aspect-[16/9]">
         {article.image_url ? (
           <Image
             src={article.image_url}
@@ -49,8 +49,8 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
         </div>
       </div>
 
-      <CardContent className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+      <CardContent className="flex flex-1 flex-col gap-2.5 p-3.5 sm:gap-3 sm:p-5">
+        <div className="flex items-center gap-2 text-[11px] text-muted-foreground sm:text-xs">
           <span className="truncate font-medium text-foreground">{article.source}</span>
           <span>·</span>
           <span className="whitespace-nowrap">{timeAgo(article.published_at)}</span>
@@ -60,20 +60,24 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="line-clamp-2 text-balance text-base font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg"
+          className="line-clamp-2 text-balance text-sm font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg"
         >
           {article.title}
         </Link>
 
-        <p className="line-clamp-3 text-sm text-muted-foreground">{article.summary}</p>
+        <p className="line-clamp-2 text-xs text-muted-foreground sm:line-clamp-3 sm:text-sm">
+          {article.summary}
+        </p>
 
-        <div className="mt-auto space-y-3 pt-2">
-          <div className="rounded-lg border border-brand/20 bg-brand/5 p-2.5 sm:p-3">
-            <div className="mb-1 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-brand">
+        <div className="mt-auto space-y-2.5 pt-1.5 sm:space-y-3 sm:pt-2">
+          <div className="rounded-lg border border-brand/20 bg-brand/5 p-2 sm:p-3">
+            <div className="mb-0.5 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-brand sm:mb-1 sm:text-[11px]">
               <Sparkles className="h-3 w-3" />
               Why this matters
             </div>
-            <p className="text-xs leading-relaxed text-muted-foreground">{article.why_it_matters}</p>
+            <p className="text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
+              {article.why_it_matters}
+            </p>
           </div>
 
           <div className="flex items-center justify-between gap-2">

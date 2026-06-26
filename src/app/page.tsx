@@ -21,14 +21,14 @@ export default async function HomePage({ searchParams }: HomeProps) {
   const page = Math.max(1, Number(searchParams.page ?? "1"));
 
   return (
-    <div className="container space-y-8 py-6 sm:space-y-10 sm:py-8">
+    <div className="container space-y-6 py-4 sm:space-y-10 sm:py-8">
       <Hero />
 
-      <div id="feed" className="space-y-5 sm:space-y-6">
+      <div id="feed" className="space-y-4 sm:space-y-6">
         <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
           <div>
-            <h2 className="text-xl font-bold tracking-tight sm:text-2xl">Latest in tech</h2>
-            <p className="text-sm text-muted-foreground">
+            <h2 className="text-lg font-bold tracking-tight sm:text-2xl">Latest in tech</h2>
+            <p className="text-xs text-muted-foreground sm:text-sm">
               AI-curated news from across the developer ecosystem.
             </p>
           </div>
@@ -37,7 +37,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
 
         <CategoryPills />
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:gap-8">
+        <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:gap-8">
           <Suspense fallback={<NewsGridSkeleton count={6} />}>
             <Feed category={category} search={search} page={page} />
           </Suspense>

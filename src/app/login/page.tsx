@@ -11,7 +11,7 @@ export default function LoginPage({ searchParams }: { searchParams: { redirect?:
   const redirectTo = searchParams.redirect ?? "/";
 
   return (
-    <div className="container flex min-h-[calc(100vh-4rem)] items-center justify-center py-8 sm:py-12">
+    <div className="container flex min-h-[calc(100vh-3.5rem)] items-center justify-center py-8 sm:min-h-[calc(100vh-4rem)] sm:py-12">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-2xl">Welcome back</CardTitle>

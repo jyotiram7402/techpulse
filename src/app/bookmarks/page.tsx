@@ -48,14 +48,14 @@ export default async function BookmarksPage() {
   }
 
   return (
-    <div className="container space-y-6 py-6 sm:space-y-8 sm:py-8">
-      <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
+    <div className="container space-y-4 py-4 sm:space-y-8 sm:py-8">
+      <div className="space-y-1.5 sm:space-y-2">
+        <div className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-2.5 py-0.5 text-[10px] font-medium text-brand sm:px-3 sm:py-1 sm:text-xs">
           <Bookmark className="h-3 w-3" />
           Your library
         </div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Bookmarks</h1>
-        <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
+        <h1 className="text-xl font-bold tracking-tight sm:text-3xl">Bookmarks</h1>
+        <p className="max-w-2xl text-xs text-muted-foreground sm:text-base">
           Everything you&apos;ve saved, in one place.
         </p>
       </div>

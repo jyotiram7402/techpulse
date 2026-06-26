@@ -15,15 +15,17 @@ export const metadata = {
 
 export default function TrendingPage() {
   return (
-    <div className="container space-y-8 py-6 sm:space-y-10 sm:py-8">
+    <div className="container space-y-5 py-4 sm:space-y-10 sm:py-8">
       <div className="space-y-2">
         <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3 py-1 text-xs font-medium text-orange-500">
           <Flame className="h-3 w-3" />
           Trending now
         </div>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">What developers are reading</h1>
-        <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-          Articles published in the last 48 hours, plus live signals from GitHub and Hacker News.
+        <h1 className="text-xl font-bold tracking-tight sm:text-3xl">
+          What developers are reading
+        </h1>
+        <p className="max-w-2xl text-xs text-muted-foreground sm:text-base">
+          Last 48 hours, plus live signals from GitHub and Hacker News.
         </p>
       </div>
 

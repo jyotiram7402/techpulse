@@ -4,14 +4,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function NewsCardSkeleton() {
   return (
     <Card className="overflow-hidden">
-      <Skeleton className="aspect-[16/9] w-full rounded-none" />
-      <CardContent className="space-y-3 p-5">
+      <Skeleton className="aspect-[2/1] w-full rounded-none sm:aspect-[16/9]" />
+      <CardContent className="space-y-2.5 p-3.5 sm:space-y-3 sm:p-5">
         <Skeleton className="h-3 w-32" />
-        <Skeleton className="h-5 w-full" />
-        <Skeleton className="h-5 w-3/4" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-5/6" />
-        <Skeleton className="h-16 w-full rounded-lg" />
+        <Skeleton className="h-4 w-full sm:h-5" />
+        <Skeleton className="h-4 w-3/4 sm:h-5" />
+        <Skeleton className="h-3 w-full sm:h-4" />
+        <Skeleton className="h-14 w-full rounded-lg sm:h-16" />
       </CardContent>
     </Card>
   );

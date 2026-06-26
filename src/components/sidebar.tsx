@@ -19,7 +19,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-60 shrink-0 border-r border-border lg:block">
+    <aside className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-60 shrink-0 border-r border-border sm:top-16 sm:h-[calc(100vh-4rem)] lg:block">
       <nav className="flex h-full flex-col gap-1 overflow-y-auto px-3 py-6">
         <div className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
           Discover

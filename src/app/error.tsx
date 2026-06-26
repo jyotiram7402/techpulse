@@ -16,7 +16,7 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="container flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center">
+    <div className="container flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center text-center sm:min-h-[calc(100vh-4rem)]">
       <div className="flex h-14 w-14 items-center justify-center rounded-full bg-destructive/10">
         <AlertTriangle className="h-6 w-6 text-destructive" />
       </div>

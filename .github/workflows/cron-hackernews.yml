@@ -1,0 +1,35 @@
+name: Ingest Hacker News (every 30 min)
+
+on:
+  schedule:
+    # Every 30 minutes. GitHub Actions enforces a 5-minute minimum, so this is fine.
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Hit /api/cron/hackernews
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SITE_URL:-}" ]; then
+            echo "::error::SITE_URL secret is missing."
+            exit 1
+          fi
+          AUTH_HEADER=()
+          if [ -n "${CRON_SECRET:-}" ]; then
+            AUTH_HEADER=(-H "Authorization: Bearer ${CRON_SECRET}")
+          fi
+          echo "Calling ${SITE_URL}/api/cron/hackernews"
+          curl -fsSL --max-time 60 --retry 2 \
+            "${AUTH_HEADER[@]}" \
+            "${SITE_URL%/}/api/cron/hackernews"
+          echo

@@ -1,0 +1,35 @@
+name: Ingest RSS feeds (hourly)
+
+on:
+  schedule:
+    # Every hour at minute :00 (UTC). GitHub may delay by 10-20 min during peak load.
+    - cron: "0 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Hit /api/cron/rss
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SITE_URL:-}" ]; then
+            echo "::error::SITE_URL secret is missing. Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          AUTH_HEADER=()
+          if [ -n "${CRON_SECRET:-}" ]; then
+            AUTH_HEADER=(-H "Authorization: Bearer ${CRON_SECRET}")
+          fi
+          echo "Calling ${SITE_URL}/api/cron/rss"
+          curl -fsSL --max-time 60 --retry 2 \
+            "${AUTH_HEADER[@]}" \
+            "${SITE_URL%/}/api/cron/rss"
+          echo

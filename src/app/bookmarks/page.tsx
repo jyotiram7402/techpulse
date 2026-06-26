@@ -22,16 +22,30 @@ export default async function BookmarksPage() {
     redirect("/login?redirect=/bookmarks");
   }
 
-  const { data } = await supabase
+  // 1. Fetch user's bookmark rows (newest first).
+  const { data: bookmarkRows } = await supabase
     .from("bookmarks")
-    .select("article_id, created_at, articles(*)")
+    .select("article_id, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
-  const articles: Article[] =
-    (data ?? [])
-      .map((row) => row.articles)
-      .filter((a): a is Article => !!a && typeof a === "object" && "id" in a) ?? [];
+  // 2. Fetch the corresponding articles in one round-trip, then re-order
+  //    them to match the bookmark order.
+  let articles: Article[] = [];
+  if (bookmarkRows && bookmarkRows.length > 0) {
+    const articleIds = bookmarkRows.map((r) => r.article_id);
+    const { data: articleRows } = await supabase
+      .from("articles")
+      .select("*")
+      .in("id", articleIds);
+
+    const articleMap = new Map<string, Article>(
+      (articleRows ?? []).map((a) => [a.id, a as Article])
+    );
+    articles = bookmarkRows
+      .map((row) => articleMap.get(row.article_id))
+      .filter((a): a is Article => !!a);
+  }
 
   return (
     <div className="container space-y-6 py-6 sm:space-y-8 sm:py-8">

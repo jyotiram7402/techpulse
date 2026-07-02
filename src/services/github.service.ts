@@ -33,9 +33,9 @@ export async function fetchTrendingRepos(): Promise<GitHubRepo[]> {
 
 export async function collectGitHubArticles(): Promise<ArticleInput[]> {
   const repos = await fetchTrendingRepos();
-  const now = new Date().toISOString();
+  const fallbackDate = new Date().toISOString();
 
-  return repos.slice(0, 15).map((repo) => {
+  return repos.slice(0, 10).map((repo) => {
     const desc = repo.description ?? "A trending repository on GitHub.";
     const title = `${repo.full_name} — ${repo.stargazers_count.toLocaleString()} stars`;
     const summary = truncate(
@@ -53,7 +53,10 @@ export async function collectGitHubArticles(): Promise<ArticleInput[]> {
       source: "GitHub Trending",
       category,
       image_url: repo.owner?.avatar_url ?? null,
-      published_at: now
+      // Use the repo's real creation date so trending repos don't get
+      // re-stamped "now" on every cron run and permanently sit at the
+      // top of the feed above genuinely fresh articles.
+      published_at: repo.created_at ?? fallbackDate
     };
   });
 }

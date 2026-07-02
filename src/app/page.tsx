@@ -45,12 +45,12 @@ export default async function HomePage({ searchParams }: HomeProps) {
 
         <CategoryPills />
 
-        <div className="grid gap-5 lg:grid-cols-[1fr_320px] lg:gap-8">
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
           <Suspense fallback={<NewsGridSkeleton count={6} />}>
             <Feed category={category} search={search} page={page} showFeatured={showFeatured} />
           </Suspense>
 
-          <aside className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-1">
+          <aside className="grid min-w-0 grid-cols-1 gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-1">
             <Suspense fallback={null}>
               <HeadlinesWidget />
             </Suspense>
@@ -98,11 +98,11 @@ async function Feed({
   return (
     <div className="space-y-5 sm:space-y-8">
       {featured ? (
-        <div className="grid gap-4 lg:grid-cols-5 lg:gap-5">
-          <div className="lg:col-span-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-5 lg:gap-5">
+          <div className="min-w-0 lg:col-span-3">
             <FeaturedCard article={featured} />
           </div>
-          <div className="flex flex-col gap-3 lg:col-span-2">
+          <div className="flex min-w-0 flex-col gap-3 lg:col-span-2">
             {compact.map((a) => (
               <CompactCard key={a.id} article={a} />
             ))}
@@ -110,7 +110,7 @@ async function Feed({
         </div>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 2xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 2xl:grid-cols-3">
         {rest.map((a, i) => (
           <NewsCard key={a.id} article={a} priority={!featured && i < 3} />
         ))}

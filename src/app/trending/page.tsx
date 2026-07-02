@@ -29,11 +29,11 @@ export default function TrendingPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-8">
         <Suspense fallback={<NewsGridSkeleton count={6} />}>
           <TrendingFeed />
         </Suspense>
-        <aside className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
+        <aside className="grid min-w-0 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
           <Suspense fallback={null}>
             <GitHubTrendingWidget />
           </Suspense>
@@ -57,7 +57,7 @@ async function TrendingFeed() {
     );
   }
   return (
-    <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 2xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 2xl:grid-cols-3">
       {articles.map((a, i) => (
         <NewsCard key={a.id} article={a} priority={i < 3} />
       ))}

@@ -67,7 +67,7 @@ export default async function BookmarksPage() {
           description="Tap the bookmark icon on any article to save it for later."
         />
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
           {articles.map((a) => (
             <NewsCard key={a.id} article={a} />
           ))}

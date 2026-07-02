@@ -6,7 +6,13 @@ export type ArticleCategory =
   | "devops"
   | "cybersecurity"
   | "startups"
-  | "opensource";
+  | "opensource"
+  | "cloud"
+  | "data"
+  | "webdev"
+  | "mobile"
+  | "architecture"
+  | "tools";
 
 export interface Article {
   id: string;
@@ -40,6 +46,7 @@ export interface GitHubRepo {
   html_url: string;
   stargazers_count: number;
   language: string | null;
+  created_at?: string;
   owner: { login: string; avatar_url: string };
 }
 

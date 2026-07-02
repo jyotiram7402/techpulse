@@ -11,8 +11,8 @@ export function FeaturedCard({ article }: { article: Article }) {
 
   return (
     <Card className="group flex h-full flex-col overflow-hidden border-border/60 bg-card transition-all hover:border-border hover:shadow-lg">
-      <div className="relative aspect-[16/9] overflow-hidden bg-muted">
-        {article.image_url ? (
+      {article.image_url ? (
+        <div className="relative aspect-[2/1] overflow-hidden bg-muted sm:aspect-[16/9]">
           <Image
             src={article.image_url}
             alt={article.title}
@@ -22,23 +22,29 @@ export function FeaturedCard({ article }: { article: Article }) {
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             unoptimized
           />
-        ) : (
-          <div
-            className={cn(
-              "absolute inset-0 flex items-center justify-center bg-gradient-to-br text-6xl",
-              cat.gradient
-            )}
-          >
-            <span>{cat.emoji}</span>
+          <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
+            <BookmarkButton
+              articleId={article.id}
+              className="bg-black/60 text-white backdrop-blur hover:bg-black/80"
+            />
           </div>
-        )}
-        <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
-          <BookmarkButton
-            articleId={article.id}
-            className="bg-black/60 text-white backdrop-blur hover:bg-black/80"
-          />
         </div>
-      </div>
+      ) : (
+        <div
+          className={cn(
+            "relative flex h-20 items-center justify-center bg-gradient-to-br text-3xl sm:h-32 sm:text-5xl",
+            cat.gradient
+          )}
+        >
+          <span>{cat.emoji}</span>
+          <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
+            <BookmarkButton
+              articleId={article.id}
+              className="bg-black/60 text-white backdrop-blur hover:bg-black/80"
+            />
+          </div>
+        </div>
+      )}
 
       <CardContent className="flex flex-1 flex-col gap-2 p-4 sm:gap-3 sm:p-6">
         <div className="flex items-center justify-between gap-2">

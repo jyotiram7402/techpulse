@@ -6,16 +6,27 @@ import { truncate } from "@/lib/utils";
 import { RSS_FEEDS } from "@/lib/constants";
 import type { ArticleInput } from "@/types/article";
 
-export async function collectRssArticles(): Promise<ArticleInput[]> {
-  const results: ArticleInput[] = [];
+export interface FeedReport {
+  source: string;
+  ok: boolean;
+  items: number;
+  error?: string;
+}
 
-  // Process feeds sequentially in small chunks to stay within memory/time limits.
+export interface RssCollectResult {
+  articles: ArticleInput[];
+  feeds: FeedReport[];
+}
+
+const ITEMS_PER_FEED = 8;
+
+export async function collectRssArticles(): Promise<RssCollectResult> {
   const settled = await Promise.allSettled(
     RSS_FEEDS.map(async (feed) => {
       const items = await fetchAndParseFeed(feed.url);
       const articles: ArticleInput[] = [];
 
-      for (const item of items.slice(0, 12)) {
+      for (const item of items.slice(0, ITEMS_PER_FEED)) {
         if (!item.title || !item.link) continue;
 
         const body = item.content || item.description;
@@ -38,9 +49,17 @@ export async function collectRssArticles(): Promise<ArticleInput[]> {
     })
   );
 
-  for (const r of settled) {
-    if (r.status === "fulfilled") results.push(...r.value);
-  }
+  const articles: ArticleInput[] = [];
+  const feeds: FeedReport[] = settled.map((result, i) => {
+    const feed = RSS_FEEDS[i];
+    if (result.status === "fulfilled") {
+      articles.push(...result.value);
+      return { source: feed.source, ok: true, items: result.value.length };
+    }
+    const message =
+      result.reason instanceof Error ? result.reason.message : String(result.reason);
+    return { source: feed.source, ok: false, items: 0, error: message };
+  });
 
-  return results;
+  return { articles, feeds };
 }

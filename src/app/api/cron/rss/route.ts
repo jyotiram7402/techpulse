@@ -17,13 +17,17 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const articles = await collectRssArticles();
+    const { articles, feeds } = await collectRssArticles();
     const inserted = await upsertArticles(articles);
+    const failed = feeds.filter((f) => !f.ok);
     return NextResponse.json({
       ok: true,
       source: "rss",
       fetched: articles.length,
-      upserted: inserted
+      upserted: inserted,
+      feedsOk: feeds.length - failed.length,
+      feedsFailed: failed.length,
+      feeds
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

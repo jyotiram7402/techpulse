@@ -84,7 +84,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Navbar />
               <div className="flex flex-1">
                 <Sidebar />
-                <main className="flex-1">{children}</main>
+                <main className="min-w-0 flex-1 overflow-x-hidden">{children}</main>
               </div>
               <Footer />
             </div>

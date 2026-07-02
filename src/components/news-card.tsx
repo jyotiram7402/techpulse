@@ -2,11 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { BookmarkButton } from "@/components/bookmark-button";
 import { CATEGORIES } from "@/lib/constants";
 import { timeAgo, cn } from "@/lib/utils";
-import { domainOf } from "@/utils/format";
 import type { Article } from "@/types/article";
 
 export function NewsCard({ article, priority = false }: { article: Article; priority?: boolean }) {
@@ -28,19 +26,13 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
         ) : (
           <div
             className={cn(
-              "absolute inset-0 flex items-center justify-center bg-gradient-to-br text-5xl",
+              "absolute inset-0 flex items-center justify-center bg-gradient-to-br text-4xl sm:text-5xl",
               cat.gradient
             )}
           >
             <span>{cat.emoji}</span>
           </div>
         )}
-        <div className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3">
-          <Badge variant="brand" className="bg-black/60 text-white backdrop-blur">
-            <span className="mr-1">{cat.emoji}</span>
-            {cat.label}
-          </Badge>
-        </div>
         <div className="absolute right-2 top-2 sm:right-3 sm:top-3">
           <BookmarkButton
             articleId={article.id}
@@ -49,18 +41,26 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
         </div>
       </div>
 
-      <CardContent className="flex flex-1 flex-col gap-2.5 p-3.5 sm:gap-3 sm:p-5">
-        <div className="flex items-center gap-2 text-[11px] text-muted-foreground sm:text-xs">
-          <span className="truncate font-medium text-foreground">{article.source}</span>
-          <span>·</span>
-          <span className="whitespace-nowrap">{timeAgo(article.published_at)}</span>
+      <CardContent className="flex flex-1 flex-col gap-2 p-3.5 sm:gap-2.5 sm:p-5">
+        <div className="flex items-center justify-between gap-2">
+          <span
+            className={cn(
+              "truncate text-[10px] font-bold uppercase tracking-wider sm:text-[11px]",
+              cat.color
+            )}
+          >
+            {cat.label}
+          </span>
+          <span className="whitespace-nowrap text-[11px] text-muted-foreground sm:text-xs">
+            {timeAgo(article.published_at)}
+          </span>
         </div>
 
         <Link
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="line-clamp-2 text-balance text-sm font-semibold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg"
+          className="line-clamp-2 text-balance text-sm font-bold leading-snug tracking-tight transition-colors group-hover:text-brand sm:text-lg"
         >
           {article.title}
         </Link>
@@ -75,18 +75,20 @@ export function NewsCard({ article, priority = false }: { article: Article; prio
               <Sparkles className="h-3 w-3" />
               Why this matters
             </div>
-            <p className="text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
+            <p className="line-clamp-2 text-[11px] leading-relaxed text-muted-foreground sm:text-xs">
               {article.why_it_matters}
             </p>
           </div>
 
           <div className="flex items-center justify-between gap-2">
-            <span className="truncate text-xs text-muted-foreground">{domainOf(article.url)}</span>
+            <span className="truncate text-[11px] font-medium text-muted-foreground sm:text-xs">
+              {article.source}
+            </span>
             <Link
               href={article.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-accent hover:text-brand"
+              className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1.5 text-[11px] font-semibold text-foreground transition-colors hover:bg-accent hover:text-brand sm:text-xs"
             >
               Read more
               <ExternalLink className="h-3 w-3" />

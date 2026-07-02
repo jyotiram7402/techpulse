@@ -15,15 +15,16 @@ export const CATEGORIES: Array<{
   label: string;
   emoji: string;
   gradient: string;
+  color: string;
 }> = [
-  { slug: "ai", label: "AI", emoji: "🧠", gradient: "from-violet-500 to-fuchsia-500" },
-  { slug: "programming", label: "Programming", emoji: "💻", gradient: "from-sky-500 to-cyan-500" },
-  { slug: "java", label: "Java", emoji: "☕", gradient: "from-orange-500 to-red-500" },
-  { slug: "react", label: "React", emoji: "⚛️", gradient: "from-cyan-400 to-blue-500" },
-  { slug: "devops", label: "DevOps", emoji: "⚙️", gradient: "from-emerald-500 to-teal-500" },
-  { slug: "cybersecurity", label: "Cybersecurity", emoji: "🛡️", gradient: "from-rose-500 to-pink-500" },
-  { slug: "startups", label: "Startups", emoji: "🚀", gradient: "from-amber-500 to-orange-500" },
-  { slug: "opensource", label: "Open Source", emoji: "🌐", gradient: "from-indigo-500 to-purple-500" }
+  { slug: "ai", label: "AI", emoji: "🧠", gradient: "from-violet-500 to-fuchsia-500", color: "text-violet-500" },
+  { slug: "programming", label: "Programming", emoji: "💻", gradient: "from-sky-500 to-cyan-500", color: "text-sky-500" },
+  { slug: "java", label: "Java", emoji: "☕", gradient: "from-orange-500 to-red-500", color: "text-orange-500" },
+  { slug: "react", label: "React", emoji: "⚛️", gradient: "from-cyan-400 to-blue-500", color: "text-cyan-500" },
+  { slug: "devops", label: "DevOps", emoji: "⚙️", gradient: "from-emerald-500 to-teal-500", color: "text-emerald-500" },
+  { slug: "cybersecurity", label: "Cybersecurity", emoji: "🛡️", gradient: "from-rose-500 to-pink-500", color: "text-rose-500" },
+  { slug: "startups", label: "Startups", emoji: "🚀", gradient: "from-amber-500 to-orange-500", color: "text-amber-500" },
+  { slug: "opensource", label: "Open Source", emoji: "🌐", gradient: "from-indigo-500 to-purple-500", color: "text-indigo-400" }
 ];
 
 export const RSS_FEEDS: Array<{

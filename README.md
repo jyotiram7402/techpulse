@@ -74,9 +74,10 @@ No paid services. No vector DB. No OpenAI billing.
 ├── .github/workflows/           # GitHub Actions cron triggers (free)
 │   ├── cron-rss.yml             # hourly RSS ingestion
 │   ├── cron-hackernews.yml      # 30-min HN ingestion
-│   └── cron-github.yml          # 6-hour GitHub trending
+│   ├── cron-github.yml          # 6-hour GitHub trending
+│   └── keepalive.yml            # weekly — stops GitHub auto-disabling the crons
 ├── middleware.ts                # Supabase session refresh + protected routes
-├── vercel.json                  # Vercel config (minimal — crons live in GH Actions)
+├── vercel.json                  # Vercel config — daily backup RSS cron
 ├── next.config.mjs
 ├── tailwind.config.ts
 ├── tsconfig.json
@@ -142,6 +143,11 @@ Vercel's Hobby plan only allows daily crons, so we use GitHub Actions instead. T
 
 You can also trigger any of them manually: **Actions tab → pick a workflow → Run workflow**.
 
+Two safety nets keep ingestion running even when the repo is quiet:
+
+- **`keepalive.yml`** — GitHub disables scheduled workflows after 60 days without a commit. This weekly workflow re-enables them through the API, so that never kicks in.
+- **Vercel daily cron** (`vercel.json`) — calls `/api/cron/rss` once a day as a backup. That also keeps the free Supabase project active (it pauses after 7 days without traffic). Vercel sends `CRON_SECRET` automatically.
+
 ### 5) (One-time) Seed the database
 
 You don't have to wait an hour for the first cron tick. Easiest way: go to your GitHub repo → **Actions tab** → pick any of the three workflows → **Run workflow**. Do that for all three to populate every source.
@@ -155,6 +161,18 @@ https://<your>.vercel.app/api/cron/hackernews
 ```
 
 When `CRON_SECRET` is unset (e.g. for local testing), the routes are open — set it before going to production.
+
+---
+
+## Troubleshooting
+
+### The site loads but no articles show ("Couldn't load the news feed")
+
+This is almost always the free-tier services going to sleep, not a code bug:
+
+1. **Supabase project paused** — free projects pause after 7 days without activity, and their API URL stops resolving. Open the [Supabase dashboard](https://supabase.com/dashboard) → your project → **Restore project**. Don't leave it: projects paused for more than 90 days can't be restored from the dashboard.
+2. **Cron workflows disabled** — on GitHub open the **Actions** tab. Any workflow with a "disabled due to inactivity" banner needs **Enable workflow** (or run **Keep scheduled workflows alive** once — it re-enables all of them).
+3. **Re-seed** — run each `Ingest …` workflow once (**Run workflow**) so fresh articles appear right away.
 
 ---
 

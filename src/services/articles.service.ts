@@ -43,6 +43,7 @@ export async function fetchArticles(options: FetchArticlesOptions = {}): Promise
   total: number;
   page: number;
   pageSize: number;
+  failed: boolean; // query errored (e.g. Supabase paused) — not the same as an empty feed
 }> {
   const { category = "all", source, search, page = 1, pageSize = PAGE_SIZE } = options;
   const supabase = createClient();
@@ -63,14 +64,15 @@ export async function fetchArticles(options: FetchArticlesOptions = {}): Promise
   const { data, error, count } = await query;
   if (error) {
     console.error("fetchArticles error:", error.message);
-    return { articles: [], total: 0, page, pageSize };
+    return { articles: [], total: 0, page, pageSize, failed: true };
   }
 
   return {
     articles: (data ?? []) as Article[],
     total: count ?? 0,
     page,
-    pageSize
+    pageSize,
+    failed: false
   };
 }
 

@@ -4,6 +4,7 @@ import { SearchBar } from "@/components/search-bar";
 import { NewsCard } from "@/components/news-card";
 import { NewsGridSkeleton } from "@/components/news-card-skeleton";
 import { EmptyState } from "@/components/empty-state";
+import { ErrorState } from "@/components/error-state";
 import { CATEGORIES } from "@/lib/constants";
 import { fetchArticles } from "@/services/articles.service";
 import type { ArticleCategory } from "@/types/article";
@@ -67,7 +68,16 @@ async function CategoryFeed({
   search?: string;
   page: number;
 }) {
-  const { articles } = await fetchArticles({ category: slug, search, page });
+  const { articles, failed } = await fetchArticles({ category: slug, search, page });
+
+  if (failed) {
+    return (
+      <ErrorState
+        title="Couldn't load the news feed"
+        description="The news database isn't responding right now. Please try again in a few minutes."
+      />
+    );
+  }
 
   if (articles.length === 0) {
     return (

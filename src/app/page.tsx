@@ -7,6 +7,7 @@ import { NewsCard } from "@/components/news-card";
 import { FeaturedCard, CompactCard } from "@/components/featured-card";
 import { NewsGridSkeleton } from "@/components/news-card-skeleton";
 import { EmptyState } from "@/components/empty-state";
+import { ErrorState } from "@/components/error-state";
 import { fetchArticles } from "@/services/articles.service";
 import type { ArticleCategory } from "@/types/article";
 import { GitHubTrendingWidget, HackerNewsWidget } from "@/components/trending-widget";
@@ -78,7 +79,16 @@ async function Feed({
   page: number;
   showFeatured: boolean;
 }) {
-  const { articles, total, pageSize } = await fetchArticles({ category, search, page });
+  const { articles, total, pageSize, failed } = await fetchArticles({ category, search, page });
+
+  if (failed) {
+    return (
+      <ErrorState
+        title="Couldn't load the news feed"
+        description="The news database isn't responding right now. Please try again in a few minutes."
+      />
+    );
+  }
 
   if (articles.length === 0) {
     return (

@@ -10,7 +10,11 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
   const [error, setError] = React.useState<string | null>(null);
   const [pending, startTransition] = React.useTransition();
 
-  async function action(formData: FormData) {
+  // Submit via onSubmit, not <form action>: React 19 resets the form after an
+  // action, which would clear the typed email when sign-in fails.
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
     setError(null);
     startTransition(async () => {
       const result = await signInWithPassword(formData);
@@ -19,7 +23,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
   }
 
   return (
-    <form action={action} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4">
       <input type="hidden" name="redirect" value={redirectTo} />
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>

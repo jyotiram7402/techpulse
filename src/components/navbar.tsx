@@ -8,7 +8,7 @@ import { UserMenu } from "@/components/user-menu";
 import { MobileNav } from "@/components/mobile-nav";
 
 export async function Navbar() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user }
   } = await supabase.auth.getUser();

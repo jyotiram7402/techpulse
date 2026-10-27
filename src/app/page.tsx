@@ -16,10 +16,11 @@ import { HeadlinesWidget } from "@/components/headlines-widget";
 export const revalidate = 300;
 
 interface HomeProps {
-  searchParams: { category?: string; q?: string; page?: string };
+  searchParams: Promise<{ category?: string; q?: string; page?: string }>;
 }
 
-export default async function HomePage({ searchParams }: HomeProps) {
+export default async function HomePage(props: HomeProps) {
+  const searchParams = await props.searchParams;
   const category = (searchParams.category as ArticleCategory | undefined) ?? "all";
   const search = searchParams.q;
   const page = Math.max(1, Number(searchParams.page ?? "1"));

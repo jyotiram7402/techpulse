@@ -11,7 +11,11 @@ export function RegisterForm() {
   const [success, setSuccess] = React.useState(false);
   const [pending, startTransition] = React.useTransition();
 
-  async function action(formData: FormData) {
+  // Submit via onSubmit, not <form action>: React 19 resets the form after an
+  // action, which would clear the typed fields when sign-up fails.
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
     setError(null);
     startTransition(async () => {
       const result = await signUpWithPassword(formData);
@@ -35,7 +39,7 @@ export function RegisterForm() {
   }
 
   return (
-    <form action={action} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input

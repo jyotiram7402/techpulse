@@ -15,7 +15,8 @@ export function generateStaticParams() {
   return CATEGORIES.map((c) => ({ slug: c.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const cat = CATEGORIES.find((c) => c.slug === params.slug);
   if (!cat) return { title: "Category" };
   return {
@@ -24,13 +25,12 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
   };
 }
 
-export default function CategoryPage({
-  params,
-  searchParams
-}: {
-  params: { slug: string };
-  searchParams: { q?: string; page?: string };
+export default async function CategoryPage(props: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
   const cat = CATEGORIES.find((c) => c.slug === params.slug);
   if (!cat) notFound();
 

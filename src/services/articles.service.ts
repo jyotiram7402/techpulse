@@ -46,7 +46,7 @@ export async function fetchArticles(options: FetchArticlesOptions = {}): Promise
   failed: boolean; // query errored (e.g. Supabase paused) — not the same as an empty feed
 }> {
   const { category = "all", source, search, page = 1, pageSize = PAGE_SIZE } = options;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const from = (page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -77,7 +77,7 @@ export async function fetchArticles(options: FetchArticlesOptions = {}): Promise
 }
 
 export async function fetchTrending(limit = 12): Promise<Article[]> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const since = new Date();
   since.setHours(since.getHours() - 48);
 
